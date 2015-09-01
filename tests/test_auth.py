@@ -1,7 +1,11 @@
 """ Tests for auth methods """
 from __future__ import unicode_literals
 
-from mock import MagicMock, patch
+try:
+    from mock import MagicMock, patch
+except ImportError:
+    from unittest.mock import MagicMock, patch
+
 from pyramid.security import Everyone
 
 from . import MockServerTest

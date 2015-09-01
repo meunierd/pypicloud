@@ -18,7 +18,7 @@ from pypicloud.access import pwd_context
 
 def gen_password():
     """ Generate a salted password """
-    print _gen_password()
+    print(_gen_password())
 
 
 def _gen_password():
@@ -29,7 +29,7 @@ def _gen_password():
         if password == verify:
             return pwd_context.encrypt(password)
         else:
-            print "Passwords do not match!"
+            print("Passwords do not match!")
 
 NO_DEFAULT = object()
 
@@ -50,13 +50,13 @@ def prompt_option(text, choices, default=NO_DEFAULT):
     """ Prompt the user to choose one of a list of options """
     while True:
         for i, msg in enumerate(choices):
-            print "[%d] %s" % (i + 1, msg)
+            print("[%d] %s" % (i + 1, msg))
         response = prompt(text, default=default)
         try:
             idx = int(response) - 1
             return choices[idx]
         except (ValueError, IndexError):
-            print "Invalid choice\n"
+            print("Invalid choice\n")
 
 
 def promptyn(msg, default=None):
@@ -138,7 +138,7 @@ def make_config(argv=None):
         def bucket_validate(name):
             """ Check for valid bucket name """
             if '.' in name:
-                print "Bucket names cannot contain '.'"
+                print("Bucket names cannot contain '.'")
                 return False
             return True
 
@@ -171,7 +171,7 @@ def make_config(argv=None):
         with open(args.outfile, 'w') as ofile:
             ofile.write(config_file)
 
-        print "Config file written to '%s'" % args.outfile
+        print("Config file written to '%s'" % args.outfile)
 
 
 def migrate_packages(argv=None):
@@ -207,7 +207,7 @@ def migrate_packages(argv=None):
     new_env = bootstrap(args.config_to)
     new_storage = new_env['request'].db.storage
     for package in all_packages:
-        print "Migrating %s" % package
+        print("Migrating %s" % package)
         with old_storage.open(package) as data:
             # we need to recalculate the path for the new storage config
             package.data.pop('path', None)
@@ -232,7 +232,7 @@ def export_access(argv=None):
         with gzip.open(args.o, 'w') as ofile:
             json.dump(data, ofile)
     else:
-        print json.dumps(data, indent=2)
+        print(json.dumps(data, indent=2))
 
 
 def import_access(argv=None):
@@ -258,7 +258,7 @@ def import_access(argv=None):
         with gzip.open(args.i, 'r') as ifile:
             data = json.load(ifile)
     else:
-        print "Reading data from stdin..."
+        print("Reading data from stdin...")
         data = json.load(sys.stdin)
 
     env = bootstrap(args.config)
@@ -266,4 +266,4 @@ def import_access(argv=None):
     result = access.load(data)
     transaction.commit()
     if result is not None:
-        print result
+        print(result)

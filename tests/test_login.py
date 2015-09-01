@@ -1,6 +1,9 @@
 """ Tests for login views """
 from . import MockServerTest
-from mock import MagicMock, patch
+try:
+    from mock import MagicMock, patch
+except ImportError:
+    from unittest.mock import MagicMock, patch
 from pypicloud.views import login
 
 

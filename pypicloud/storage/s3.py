@@ -5,7 +5,10 @@ import posixpath
 import time
 from contextlib import contextmanager
 from hashlib import md5
-from urllib import urlopen
+try:
+    from urllib import urlopen
+except ImportError:
+    from urllib.request import urlopen
 
 import boto.s3
 from boto.s3.key import Key

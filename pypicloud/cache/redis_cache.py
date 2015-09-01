@@ -3,6 +3,8 @@ from datetime import datetime
 
 import json
 
+import six
+
 from .base import ICache
 
 
@@ -97,7 +99,7 @@ class RedisCache(ICache):
             'filename': package.filename,
             'last_modified': package.last_modified.strftime('%s.%f'),
         }
-        for key, value in package.data.iteritems():
+        for key, value in six.iteritems(package.data):
             data[key] = json.dumps(value)
         pipe.hmset(self.redis_key(package.filename), data)
         pipe.sadd(self.redis_set, package.name)

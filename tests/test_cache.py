@@ -2,7 +2,11 @@
 import sys
 import transaction
 from redis import ConnectionError
-from mock import MagicMock, patch
+try:
+    from mock import MagicMock, patch
+except ImportError:
+    from unittest.mock import MagicMock, patch
+
 from pyramid.testing import DummyRequest
 
 from . import DummyCache, DummyStorage, make_package

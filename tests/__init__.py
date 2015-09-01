@@ -1,10 +1,14 @@
 """ Tests for pypicloud """
 from datetime import datetime
-from types import MethodType
 
 from collections import defaultdict
-from mock import MagicMock
+try:
+    from mock import MagicMock
+except:
+    from unittest.mock import MagicMock
 from pyramid.testing import DummyRequest
+
+import six
 
 from pypicloud.cache import ICache
 from pypicloud.models import Package
@@ -35,7 +39,7 @@ class DummyStorage(IStorage):
 
     def list(self, factory=Package):
         """ Return a list or generator of all packages """
-        for args in self.packages.itervalues():
+        for args in six.itervalues(self.packages):
             yield args[0]
 
     def download_response(self, package):
@@ -66,11 +70,11 @@ class DummyCache(ICache):
 
     def all(self, name):
         """ Override this method to implement 'all' """
-        return [p for p in self.packages.itervalues() if p.name == name]
+        return [p for p in six.itervalues(self.packages) if p.name == name]
 
     def distinct(self):
         """ Get all distinct package names """
-        return list(set((p.name for p in self.packages.itervalues())))
+        return list(set((p.name for p in six.itervalues(self.packages))))
 
     def clear(self, package):
         """ Remove this package from the caching database """

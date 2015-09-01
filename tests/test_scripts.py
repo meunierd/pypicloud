@@ -1,5 +1,8 @@
 """ Tests for commandline scripts """
-from mock import patch
+try:
+    from mock import patch
+except ImportError:
+    from unittest.mock import patch
 
 from pypicloud import scripts
 from pypicloud.access import pwd_context

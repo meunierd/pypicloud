@@ -1,6 +1,9 @@
 """ Tests for access backends """
 import transaction
-from mock import MagicMock, patch
+try:
+    from mock import MagicMock, patch
+except ImportError:
+    from unittest.mock import MagicMock, patch
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.security import Everyone, Authenticated
 from pyramid.testing import DummyRequest
