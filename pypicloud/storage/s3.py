@@ -1,8 +1,7 @@
 """ Store packages in S3 """
-import calendar
 import logging
 import posixpath
-import time
+import six
 from contextlib import contextmanager
 from hashlib import md5
 try:
@@ -93,8 +92,8 @@ class S3Storage(IStorage):
             filename = package.name + '/' + package.filename
             if self.prepend_hash:
                 m = md5()
-                m.update(package.filename)
-                prefix = m.digest().encode('hex')[:4]
+                m.update(six.u(package.filename).encode('utf-8'))
+                prefix = m.hexdigest()[:4]
                 filename = prefix + '/' + filename
             package.data['path'] = self.bucket_prefix + filename
         return package.data['path']
