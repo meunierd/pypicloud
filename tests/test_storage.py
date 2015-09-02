@@ -1,5 +1,6 @@
 """ Tests for package storage backends """
 import time
+import six
 from six import StringIO
 from datetime import datetime
 
@@ -111,7 +112,7 @@ class TestS3Storage(unittest.TestCase):
         data = StringIO(datastr)
         self.storage.upload(package, data)
         key = list(self.bucket.list())[0]
-        self.assertEqual(key.get_contents_as_string(), datastr)
+        self.assertEqual(key.get_contents_as_string(), six.b(datastr))
         self.assertEqual(key.get_metadata('name'), package.name)
         self.assertEqual(key.get_metadata('version'), package.version)
 

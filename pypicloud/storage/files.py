@@ -4,7 +4,9 @@ from contextlib import closing
 
 from pyramid.response import FileResponse
 
+import six
 import os
+import binascii
 from .base import IStorage
 from pypicloud.models import Package
 
@@ -51,7 +53,7 @@ class FileStorage(IStorage):
         destdir = os.path.dirname(destfile)
         if not os.path.exists(destdir):
             os.makedirs(destdir)
-        uid = os.urandom(4).encode('hex')
+        uid = binascii.hexlify(os.urandom(4)).decode('utf-8')
         tempfile = os.path.join(destdir, '.' + package.filename + '.' + uid)
         # Write to a temporary file
         with open(tempfile, 'w') as ofile:
