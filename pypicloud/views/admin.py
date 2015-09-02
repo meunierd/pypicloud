@@ -1,6 +1,7 @@
 """ API endpoints for admin controls """
 import gzip
 import json
+import six
 from paste.httpheaders import CONTENT_DISPOSITION
 from pyramid.httpexceptions import HTTPBadRequest
 from pyramid.response import FileIter
@@ -119,9 +120,9 @@ class AdminEndpoints(object):
         """ Get the user and group permissions set on a package """
         package = self.request.named_subpaths['package']
         user_perms = [{'username': key, 'permissions': val} for key, val in
-                      self.request.access.user_permissions(package).iteritems()]
+                      six.iteritems(self.request.access.user_permissions(package))]
         group_perms = [{'group': key, 'permissions': val} for key, val in
-                       self.request.access.group_permissions(package).iteritems()]
+                       six.iteritems(self.request.access.group_permissions(package))]
         return {
             'user': user_perms,
             'group': group_perms,

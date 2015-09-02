@@ -1,13 +1,19 @@
 """ Tests for package storage backends """
 import time
-from cStringIO import StringIO
+from six import StringIO
 from datetime import datetime
 
 import shutil
 import tempfile
-from mock import MagicMock, patch
+try:
+    from mock import MagicMock, patch
+except ImportError:
+    from unittest.mock import MagicMock, patch
 from moto import mock_s3
-from urlparse import urlparse, parse_qs
+try:
+    from urlparse import urlparse, parse_qs
+except ImportError:
+    from urllib.parse import urlparse, parse_qs
 
 import boto
 import os
