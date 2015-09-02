@@ -1,5 +1,6 @@
 """ Utilities for authentication and authorization """
 import binascii
+import base64
 
 from paste.httpheaders import AUTHORIZATION, WWW_AUTHENTICATE
 from pyramid.authorization import ACLAuthorizationPolicy
@@ -18,8 +19,8 @@ def get_basicauth_credentials(request):
         return None
     if authmeth.lower() == 'basic':
         try:
-            auth = auth.strip().decode('base64')
-        except binascii.Error:  # can't decode
+            auth = base64.b64decode(auth.strip())
+        except TypeError:  # can't decode
             return None
         try:
             login, password = auth.split(':', 1)

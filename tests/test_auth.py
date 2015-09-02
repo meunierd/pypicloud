@@ -1,6 +1,10 @@
 """ Tests for auth methods """
 from __future__ import unicode_literals
 
+import six
+
+from base64 import b64encode
+
 try:
     from mock import MagicMock, patch
 except ImportError:
@@ -45,8 +49,8 @@ class TestBasicAuth(MockServerTest):
 
     def test_malformed_user_pass(self):
         """ Returns None if username/password is malformed """
-        userpass = 'abcd'.encode('base64')
-        self.request.environ['HTTP_AUTHORIZATION'] = 'Basic ' + userpass
+        userpass = b64encode(six.b('abcd'))
+        self.request.environ['HTTP_AUTHORIZATION'] = six.b('Basic ') + userpass
         creds = auth.get_basicauth_credentials(self.request)
         self.assertIsNone(creds)
 
@@ -54,8 +58,8 @@ class TestBasicAuth(MockServerTest):
         """ Returns username, password if everything is valid """
         username = 'dsa'
         password = 'conspiracytheory'
-        userpass = (username + ':' + password).encode('base64')
-        self.request.environ['HTTP_AUTHORIZATION'] = 'Basic ' + userpass
+        userpass = b64encode(six.b(username + ':' + password))
+        self.request.environ['HTTP_AUTHORIZATION'] = six.b('Basic ') + userpass
         creds = auth.get_basicauth_credentials(self.request)
         self.assertEqual(creds, {'login': username, 'password': password})
 

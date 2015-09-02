@@ -1,6 +1,10 @@
 """ Tests for API endpoints """
 from distlib.database import Distribution
-from mock import MagicMock, patch
+try:
+    from mock import MagicMock, patch
+except ImportError:
+    from unittest.mock import MagicMock, patch
+
 from pyramid.httpexceptions import HTTPBadRequest, HTTPNotFound, HTTPForbidden
 
 from . import MockServerTest, make_package
