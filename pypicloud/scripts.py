@@ -1,5 +1,6 @@
 """ Commandline scripts """
 import sys
+import six
 
 import argparse
 import getpass
@@ -37,7 +38,7 @@ NO_DEFAULT = object()
 def prompt(msg, default=NO_DEFAULT, validate=None):
     """ Prompt user for input """
     while True:
-        response = raw_input(msg + ' ').strip()
+        response = six.moves.input(msg + ' ').strip()
         if not response:
             if default is NO_DEFAULT:
                 continue
