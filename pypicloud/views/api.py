@@ -32,7 +32,10 @@ def all_packages(request, verbose=False):
     i = 0
     while i < len(packages):
         package = packages[i]
-        name = package if isinstance(package, basestring) else package['name']
+        if isinstance(package, six.string_types):
+            name = package
+        else:
+            name = package['name']
         if not request.access.has_permission(name, 'read'):
             del packages[i]
             continue
