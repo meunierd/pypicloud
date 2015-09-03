@@ -1,5 +1,6 @@
 """ Model objects """
 import re
+import six
 from datetime import datetime
 
 import pkg_resources
@@ -68,7 +69,7 @@ class Package(object):
                 (other.name, other.parsed_version))
 
     def __repr__(self):
-        return unicode(self)
+        return self.__unicode__()
 
     def __str__(self):
         return unicode(self).encode('utf-8')

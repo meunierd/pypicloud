@@ -21,6 +21,9 @@ try:
 except ImportError:
     import unittest
 
+if six.PY3:
+    unittest.TestCase.assertItemsEqual = unittest.TestCase.assertCountEqual
+
 
 def make_package(name='mypkg', version='1.1', filename=None,
                  last_modified=datetime.utcnow(), factory=Package, **kwargs):
